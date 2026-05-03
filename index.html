@@ -21,11 +21,17 @@
             min-height: 100vh;
             padding: 5rem 2rem;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         .container {
             max-width: 550px;
             width: 100%;
+            position: relative;
+        }
+
+        .container.is-glitching > .content {
+            visibility: hidden;
         }
 
         h1 {
@@ -61,28 +67,184 @@
         ::selection {
             background: #fffc00;
         }
+
+        .glitch-clone {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            user-select: none;
+            will-change: transform, opacity;
+        }
+
+        #stripes {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        #stripes rect {
+            opacity: 0;
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: stripeFlash 650ms cubic-bezier(.2,.7,.3,1) forwards;
+        }
+
+        @keyframes stripeFlash {
+            0%   { opacity: 0; transform: translateX(-30px) scaleX(0.6); }
+            12%  { opacity: 1; }
+            55%  { opacity: 1; transform: translateX(15px) scaleX(1); }
+            100% { opacity: 0; transform: translateX(45px) scaleX(0.4); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #stripes { display: none; }
+            .container.is-glitching > .content { visibility: visible; }
+            .glitch-clone { display: none; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>rushir</h1>
-        <p class="subtitle">some things about me</p>
-        <ul>
-            <li>live in new york city</li>
-            <li>named forbes "30 under 30" in 2023</li>
-            <li>early stage angel investor and advisor</li>
-            <li>love restaurants, hotels, chess, and tennis</li>
-            <li>founded popchew - a ghost kitchen & virtual brand company
-                <ul>
-                    <li>raised $10M in venture capital and scaled to $20M in revenue</li>
-                    <li>partnered with a-list celebrities and globally recognized brands like doritos</li>
-                </ul>
-            </li>
-            <li>built and led supply side product at shipt - a grocery delivery marketplace acquired by target in 2017</li>
-            <li>dropped out of college and led special projects at bellhops - a pioneer in marketplace businesses</li>
-            <li><a href="https://x.com/rushikh">twitter</a></li>
-            <li><a href="mailto:r@rushir.me">r@rushir.me</a></li>
-        </ul>
+    <div class="container is-glitching">
+        <div class="content">
+            <h1>rushir</h1>
+            <p class="subtitle">some things about me</p>
+            <ul>
+                <li>live in new york city</li>
+                <li>named forbes "30 under 30" in 2023</li>
+                <li>early stage angel investor and advisor</li>
+                <li>love restaurants, hotels, chess, and tennis</li>
+                <li>founded popchew - a ghost kitchen & virtual brand company
+                    <ul>
+                        <li>raised $10M in venture capital and scaled to $20M in revenue</li>
+                        <li>partnered with a-list celebrities and globally recognized brands like doritos</li>
+                    </ul>
+                </li>
+                <li>built and led supply side product at shipt - a grocery delivery marketplace acquired by target in 2017</li>
+                <li>dropped out of college and led special projects at bellhops - a pioneer in marketplace businesses</li>
+                <li><a href="https://x.com/rushikh">twitter</a></li>
+                <li><a href="mailto:r@rushir.me">r@rushir.me</a></li>
+            </ul>
+        </div>
     </div>
+    <svg id="stripes" xmlns="http://www.w3.org/2000/svg"></svg>
+    <script>
+    (function () {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        var container = document.querySelector('.container');
+        var content = container.querySelector('.content');
+        var stripesSvg = document.getElementById('stripes');
+
+        var NUM_CLONES = 6;
+        var NUM_STRIPES = 140;
+        var SVG_NS = 'http://www.w3.org/2000/svg';
+
+        function randHue() {
+            return 'hsl(' + Math.round(Math.random() * 360) + ', 85%, 55%)';
+        }
+
+        function buildClones() {
+            var box = content.getBoundingClientRect();
+            var width = box.width;
+            var height = box.height;
+
+            // distribute horizontal bands across clones
+            var bandsPerClone = [];
+            for (var i = 0; i < NUM_CLONES; i++) bandsPerClone.push([]);
+            var y = 0;
+            while (y < height) {
+                var h = 4 + Math.random() * 14;
+                var owner = Math.floor(Math.random() * NUM_CLONES);
+                bandsPerClone[owner].push({ y: y, h: Math.min(h, height - y) });
+                y += h;
+            }
+
+            for (var i = 0; i < NUM_CLONES; i++) {
+                var bands = bandsPerClone[i];
+                if (!bands.length) continue;
+
+                var clone = content.cloneNode(true);
+                clone.classList.add('glitch-clone');
+
+                var pathD = bands.map(function (b) {
+                    return 'M0,' + b.y + ' L' + width + ',' + b.y +
+                           ' L' + width + ',' + (b.y + b.h) + ' L0,' + (b.y + b.h) + ' Z';
+                }).join(' ');
+                clone.style.clipPath = "path('" + pathD + "')";
+                clone.style.webkitClipPath = "path('" + pathD + "')";
+
+                var hue = randHue();
+                clone.style.color = hue;
+                var anchors = clone.querySelectorAll('a');
+                for (var a = 0; a < anchors.length; a++) anchors[a].style.color = randHue();
+
+                var jitter = (Math.random() - 0.5) * 36;
+                clone.style.transform = 'translate3d(' + jitter + 'px, 0, 0)';
+                clone.style.opacity = '1';
+                container.appendChild(clone);
+
+                (function (el, jitter) {
+                    var snapAt = 80 + Math.random() * 320;
+                    var fadeAt = snapAt + 120;
+                    var killAt = fadeAt + 280;
+
+                    setTimeout(function () {
+                        el.style.transition = 'transform 180ms ease-out';
+                        el.style.transform = 'translate3d(' + (jitter * -0.15) + 'px, 0, 0)';
+                    }, snapAt);
+                    setTimeout(function () {
+                        el.style.transition = 'transform 160ms ease-out, opacity 220ms ease-out';
+                        el.style.transform = 'translate3d(0, 0, 0)';
+                        el.style.opacity = '0';
+                    }, fadeAt);
+                    setTimeout(function () {
+                        if (el.parentNode) el.parentNode.removeChild(el);
+                    }, killAt);
+                })(clone, jitter);
+            }
+        }
+
+        function buildStripes() {
+            var W = window.innerWidth;
+            var H = window.innerHeight;
+            stripesSvg.setAttribute('width', W);
+            stripesSvg.setAttribute('height', H);
+            stripesSvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+            for (var i = 0; i < NUM_STRIPES; i++) {
+                var rect = document.createElementNS(SVG_NS, 'rect');
+                var w = Math.round(80 + Math.random() * (W * 0.55));
+                var h = Math.round(2 + Math.random() * 9);
+                rect.setAttribute('x', Math.round(Math.random() * (W + w) - w / 2));
+                rect.setAttribute('y', Math.round(Math.random() * H));
+                rect.setAttribute('width', w);
+                rect.setAttribute('height', h);
+                // mix of color hues + white "cutout" stripes for the glitch read on light bg
+                var roll = Math.random();
+                var fill;
+                if (roll < 0.45) fill = '#fff';
+                else if (roll < 0.55) fill = '#111';
+                else fill = randHue();
+                rect.setAttribute('fill', fill);
+                rect.style.animationDelay = (Math.random() * 220) + 'ms';
+                stripesSvg.appendChild(rect);
+            }
+
+            setTimeout(function () {
+                if (stripesSvg.parentNode) stripesSvg.parentNode.removeChild(stripesSvg);
+            }, 1100);
+        }
+
+        // run intro on next frame so layout is settled
+        requestAnimationFrame(function () {
+            buildStripes();
+            buildClones();
+            setTimeout(function () {
+                container.classList.remove('is-glitching');
+            }, 720);
+        });
+    })();
+    </script>
 </body>
 </html>

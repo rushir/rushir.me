@@ -25,7 +25,7 @@
         }
 
         .container {
-            max-width: 550px;
+            max-width: 900px;
             width: 100%;
             position: relative;
         }
@@ -37,31 +37,73 @@
         h1 {
             font-size: 1.4rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
         }
 
-        ul {
-            margin-left: 1.25rem;
-        }
-
-        li {
-            font-size: 0.95rem;
-            line-height: 1.8;
+        .bio {
+            font-size: 1.1rem;
+            line-height: 1.6;
             color: #111;
+            margin-bottom: 2rem;
+            max-width: 700px;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            color: #333;
+            max-width: 700px;
         }
 
         a {
             color: #111;
+            text-decoration: underline;
+            text-decoration-color: #111;
+            text-underline-offset: 0.2em;
+            cursor: pointer;
         }
 
         a:hover {
             color: #666;
+            text-decoration-color: #666;
         }
 
-        .subtitle {
-            font-size: 0.95rem;
-            color: #111;
+        .section {
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
             margin-bottom: 1rem;
+            color: #111;
+        }
+
+        .work-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .work-item-title {
+            font-weight: 600;
+            color: #111;
+            white-space: nowrap;
+        }
+
+        .work-item-desc {
+            color: #666;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 0.6rem;
+            color: #333;
         }
 
         ::selection {
@@ -108,23 +150,52 @@
     <div class="container is-glitching">
         <div class="content">
             <h1>rushir</h1>
-            <p class="subtitle">some things about me</p>
-            <ul>
-                <li>live in new york city</li>
-                <li>named forbes "30 under 30" in 2023</li>
-                <li>early stage angel investor and advisor</li>
-                <li>love restaurants, hotels, chess, and tennis</li>
-                <li>founded popchew - a ghost kitchen & virtual brand company
-                    <ul>
-                        <li>raised $10M in venture capital and scaled to $20M in revenue</li>
-                        <li>partnered with a-list celebrities and globally recognized brands like doritos</li>
-                    </ul>
-                </li>
-                <li>built and led supply side product at shipt - a grocery delivery marketplace acquired by target in 2017</li>
-                <li>dropped out of college and led special projects at bellhops - a pioneer in marketplace businesses</li>
-                <li><a href="https://x.com/rushikh">twitter</a></li>
-                <li><a href="mailto:r@rushir.me">r@rushir.me</a></li>
-            </ul>
+
+            <p class="bio">early stage investor, founder, and product builder based in new york city.</p>
+
+            <div class="section">
+                <p>live in <strong>new york city</strong>. named <strong>forbes</strong> 30 under 30 in 2023. early stage angel investor and advisor. love restaurants, hotels, chess, and tennis.</p>
+            </div>
+
+            <div class="section">
+                <div class="section-title">current work</div>
+                <p>angel investing and advising early stage founders at seed.</p>
+            </div>
+
+            <div class="section">
+                <div class="section-title">past ventures</div>
+                <div class="work-item">
+                    <div class="work-item-title"><a href="#">popchew</a></div>
+                    <div class="work-item-desc">— founded ghost kitchen & virtual brand company</div>
+                </div>
+                <ul style="margin-left: 0; padding-left: 0;">
+                    <li style="margin-left: 0;">raised $10M in venture capital, scaled to $20M in revenue</li>
+                    <li style="margin-left: 0;">partnered with a-list celebrities and brands like doritos</li>
+                </ul>
+
+                <div class="work-item" style="margin-top: 1.2rem;">
+                    <div class="work-item-title"><a href="#">shipt</a></div>
+                    <div class="work-item-desc">— built and led supply side product</div>
+                </div>
+                <ul style="margin-left: 0; padding-left: 0;">
+                    <li style="margin-left: 0;">grocery delivery marketplace acquired by target in 2017</li>
+                </ul>
+
+                <div class="work-item" style="margin-top: 1.2rem;">
+                    <div class="work-item-title"><a href="#">bellhops</a></div>
+                    <div class="work-item-desc">— led special projects at pioneer marketplace</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">angel investments</div>
+                <p>early supporter of ambitious founders building the future. investments span consumer, enterprise, and deep tech.</p>
+            </div>
+
+            <div class="section">
+                <div class="section-title">reach out</div>
+                <p><a href="https://x.com/rushikh">twitter</a> — <a href="https://linkedin.com/in/rushikh">linkedin</a> — <a href="mailto:r@rushir.me">email</a></p>
+            </div>
         </div>
     </div>
     <svg id="stripes" xmlns="http://www.w3.org/2000/svg"></svg>

@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rushir</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,294 +13,66 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            background: #fafafa;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background: #fff;
             color: #111;
-            line-height: 1.5;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 5rem 2rem;
+            -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        /* positioning context for the intro glitch clones */
-        .stage {
+            max-width: 550px;
+            width: 100%;
             position: relative;
         }
 
-        .stage.is-glitching > main {
+        .container.is-glitching > .content {
             visibility: hidden;
         }
 
-        main {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .intro {
-            margin-top: 2rem;
-        }
-
-        .greeting {
-            font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: clamp(1.2rem, 3vw, 2rem);
+        h1 {
+            font-size: 1.4rem;
             font-weight: 700;
-            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        ul {
+            margin-left: 1.25rem;
+        }
+
+        li {
+            font-size: 0.95rem;
+            line-height: 1.8;
             color: #111;
-            letter-spacing: -0.02em;
-            margin: 0;
         }
 
-        .blurb p {
-            font-size: 0.9375rem;
+        a {
             color: #111;
-            line-height: 1.5;
-            margin: 0;
-            max-width: 75%;
         }
 
-        .blurb a {
-            color: #111;
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .blurb a:hover {
-            opacity: 0.6;
-        }
-
-        section {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        h2 {
-            font-size: 0.875rem;
-            font-weight: 700;
-            color: #111;
-            text-transform: lowercase;
-            letter-spacing: 0.02em;
-            margin: 0;
-        }
-
-        .work ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .work li {
-            font-size: 0.9375rem;
-            color: #111;
-            line-height: 1.5;
-        }
-
-        .work a,
-        .work .work-item {
-            color: #111;
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .work a:hover,
-        .work .work-item:hover {
-            opacity: 0.6;
-        }
-
-        .work .work-item {
-            text-decoration: underline;
-            cursor: pointer;
-        }
-
-        .work .description {
+        a:hover {
             color: #666;
-            font-size: 0.875rem;
         }
 
-        .investments p {
-            font-size: 0.9375rem;
+        .subtitle {
+            font-size: 0.95rem;
             color: #111;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        .investments a {
-            color: #111;
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .investments a:hover {
-            opacity: 0.6;
-        }
-
-        /* copy you still need to write */
-        .todo {
-            color: #999;
-            font-style: italic;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .social-links a {
-            color: #111;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            transition: opacity 0.2s;
-        }
-
-        .social-links a:hover {
-            opacity: 0.6;
-        }
-
-        .social-links svg {
-            display: block;
-        }
-
-        .email-icon {
-            color: #111;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            position: relative;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .email-icon::before {
-            content: "r at rushir dot me";
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            margin-bottom: 0.5rem;
-            padding: 0.5rem 0.75rem;
-            background: #111;
-            color: #fafafa;
-            font-size: 0.75rem;
-            white-space: nowrap;
-            border-radius: 4px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            transform: translateX(-50%) translateY(-4px);
-            font-weight: 400;
-            letter-spacing: 0.01em;
-        }
-
-        .email-icon::after {
-            content: "";
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            margin-bottom: 0.25rem;
-            width: 0;
-            height: 0;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            border-top: 5px solid #111;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease;
-        }
-
-        .email-icon:hover::before,
-        .email-icon:hover::after,
-        .email-icon.tooltip-visible::before,
-        .email-icon.tooltip-visible::after {
-            opacity: 1;
-        }
-
-        .email-icon:hover::before,
-        .email-icon.tooltip-visible::before {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* ---- hover preview overlays ---- */
-        .overlay {
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            padding: 1.15rem;
-            width: 320px;
-            animation: overlayFadeIn 0.5s ease forwards;
-        }
-
-        .overlay--fading-out {
-            animation: overlayFadeOut 0.5s ease forwards;
-        }
-
-        @keyframes overlayFadeIn {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
-
-        @keyframes overlayFadeOut {
-            from { opacity: 1; }
-            to   { opacity: 0; }
-        }
-
-        .overlay-title {
-            font-family: "Space Grotesk", -apple-system, sans-serif;
-            font-size: 0.9375rem;
-            font-weight: 700;
-            margin: 0 0 0.35rem;
-            color: #111;
-        }
-
-        .overlay-text {
-            font-size: 0.875rem;
-            line-height: 1.45;
-            color: #111;
-            margin: 0;
-        }
-
-        .overlay-media {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            border-radius: 4px;
-            margin-bottom: 0.75rem;
-            object-fit: cover;
-            display: block;
-            background: linear-gradient(145deg, #e8ebed, #d1d9dd);
-        }
-
-        @media (max-width: 768px) {
-            .container { padding: 2rem 1.5rem; }
-            main { gap: 1.5rem; }
-            .intro { margin-top: 0; }
-            .blurb p { max-width: 100%; }
-            .overlay { display: none; }
+            margin-bottom: 1rem;
         }
 
         ::selection {
             background: #fffc00;
         }
 
-        /* ---- intro glitch animation ---- */
         .glitch-clone {
             position: absolute;
             inset: 0;
             pointer-events: none;
             user-select: none;
-            visibility: visible;
             will-change: transform, opacity;
         }
 
@@ -330,236 +99,41 @@
 
         @media (prefers-reduced-motion: reduce) {
             #stripes { display: none; }
-            .stage.is-glitching > main { visibility: visible; }
+            .container.is-glitching > .content { visibility: visible; }
             .glitch-clone { display: none; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="stage is-glitching">
-            <main>
-                <div class="intro">
-                    <h1 class="greeting">rushir</h1>
-                </div>
-
-                <div class="blurb">
-                    <p><span class="todo">[one or two lines about what you're doing now &mdash; your words]</span></p>
-                </div>
-
-                <section class="work">
-                    <h2>past work</h2>
+    <div class="container is-glitching">
+        <div class="content">
+            <h1>rushir</h1>
+            <p class="subtitle">some things about me</p>
+            <ul>
+                <li>live in new york city</li>
+                <li>named forbes "30 under 30" in 2023</li>
+                <li>early stage angel investor and advisor</li>
+                <li>love restaurants, hotels, chess, and tennis</li>
+                <li>founded popchew - a ghost kitchen & virtual brand company
                     <ul>
-                        <li>
-                            <span class="work-item" data-preview="popchew">popchew</span>
-                            <span class="description">&mdash; founder (ghost kitchen &amp; virtual brand company)</span>
-                        </li>
-                        <li>
-                            <a class="work-item" href="https://www.shipt.com" data-preview="shipt">shipt</a>
-                            <span class="description">&mdash; supply side product (acquired by target in 2017)</span>
-                        </li>
-                        <li>
-                            <a class="work-item" href="https://bellhops.com" data-preview="bellhops">bellhops</a>
-                            <span class="description">&mdash; special projects</span>
-                        </li>
+                        <li>raised $10M in venture capital and scaled to $20M in revenue</li>
+                        <li>partnered with a-list celebrities and globally recognized brands like doritos</li>
                     </ul>
-                </section>
-
-                <section class="investments">
-                    <h2>angel investments</h2>
-                    <p><span class="todo">[list the companies here, comma separated &mdash; or a line in your words]</span></p>
-                </section>
-
-                <section class="social">
-                    <h2>reach out</h2>
-                    <div class="social-links">
-                        <a href="https://x.com/rushikh" aria-label="X (Twitter)" target="_blank" rel="noopener">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.linkedin.com/in/rushikh" aria-label="LinkedIn" target="_blank" rel="noopener">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13M7.12 20.45H3.56V9h3.56zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0"/>
-                            </svg>
-                        </a>
-                        <span class="email-icon" role="button" tabindex="0" aria-label="Email">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <rect x="2" y="4" width="20" height="16" rx="2"/>
-                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-                            </svg>
-                        </span>
-                    </div>
-                </section>
-            </main>
+                </li>
+                <li>built and led supply side product at shipt - a grocery delivery marketplace acquired by target in 2017</li>
+                <li>dropped out of college and led special projects at bellhops - a pioneer in marketplace businesses</li>
+                <li><a href="https://x.com/rushikh">twitter</a></li>
+                <li><a href="mailto:r@rushir.me">r@rushir.me</a></li>
+            </ul>
         </div>
     </div>
-
     <svg id="stripes" xmlns="http://www.w3.org/2000/svg"></svg>
-
     <script>
-    /* ---------- hover preview overlays ---------- */
-    (function () {
-        // Swap `text` for your own words, and set `image` to a file path
-        // (e.g. 'assets/popchew.png') to show a screenshot instead of the placeholder.
-        var PREVIEWS = {
-            popchew: {
-                title: 'popchew',
-                image: null,
-                text: 'ghost kitchen and virtual brand company. raised $10M in venture capital, scaled to $20M in revenue, and partnered with a-list celebrities and globally recognized brands like doritos.'
-            },
-            shipt: {
-                title: 'shipt',
-                image: null,
-                text: 'grocery delivery marketplace acquired by target in 2017. built and led supply side product.'
-            },
-            bellhops: {
-                title: 'bellhops',
-                image: null,
-                text: 'a pioneer in marketplace businesses. dropped out of college and led special projects.'
-            }
-        };
-
-        var OFFSET_X = 18;
-        var OFFSET_Y = 18;
-        var FADE_MS = 500;
-
-        var current = null;
-        var fadeTimer = null;
-
-        function build(key) {
-            var data = PREVIEWS[key];
-            if (!data) return null;
-
-            var el = document.createElement('div');
-            el.className = 'overlay';
-
-            if (data.image) {
-                var img = document.createElement('img');
-                img.className = 'overlay-media';
-                img.src = data.image;
-                img.alt = '';
-                el.appendChild(img);
-            }
-
-            var title = document.createElement('p');
-            title.className = 'overlay-title';
-            title.textContent = data.title;
-            el.appendChild(title);
-
-            var text = document.createElement('p');
-            text.className = 'overlay-text';
-            text.textContent = data.text;
-            el.appendChild(text);
-
-            return el;
-        }
-
-        function place(el, x, y) {
-            var rect = el.getBoundingClientRect();
-            var left = x + OFFSET_X;
-            var top = y + OFFSET_Y;
-
-            // keep the card inside the viewport
-            if (left + rect.width > window.innerWidth - 8) {
-                left = x - rect.width - OFFSET_X;
-            }
-            if (top + rect.height > window.innerHeight - 8) {
-                top = y - rect.height - OFFSET_Y;
-            }
-
-            el.style.left = Math.max(8, left) + 'px';
-            el.style.top = Math.max(8, top) + 'px';
-        }
-
-        function show(key, event) {
-            hide(true);
-            var el = build(key);
-            if (!el) return;
-            document.body.appendChild(el);
-            place(el, event.clientX, event.clientY);
-            current = el;
-        }
-
-        function hide(immediate) {
-            if (fadeTimer) {
-                clearTimeout(fadeTimer);
-                fadeTimer = null;
-            }
-            if (!current) return;
-
-            var el = current;
-            current = null;
-
-            if (immediate) {
-                if (el.parentNode) el.parentNode.removeChild(el);
-                return;
-            }
-
-            el.classList.add('overlay--fading-out');
-            fadeTimer = setTimeout(function () {
-                if (el.parentNode) el.parentNode.removeChild(el);
-                fadeTimer = null;
-            }, FADE_MS);
-        }
-
-        // only on devices that actually have a hovering pointer
-        function canHover() {
-            return window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
-                   window.innerWidth > 768;
-        }
-
-        var triggers = document.querySelectorAll('[data-preview]');
-        for (var i = 0; i < triggers.length; i++) {
-            (function (trigger) {
-                var key = trigger.getAttribute('data-preview');
-
-                trigger.addEventListener('mouseenter', function (e) {
-                    if (!canHover()) return;
-                    show(key, e);
-                });
-
-                trigger.addEventListener('mousemove', function (e) {
-                    if (!current) return;
-                    place(current, e.clientX, e.clientY);
-                });
-
-                trigger.addEventListener('mouseleave', function () {
-                    hide(false);
-                });
-            })(triggers[i]);
-        }
-
-        window.addEventListener('scroll', function () { hide(true); }, { passive: true });
-    })();
-
-    /* ---------- email tooltip (tap support) ---------- */
-    (function () {
-        var icon = document.querySelector('.email-icon');
-        if (!icon) return;
-
-        function reveal() {
-            icon.classList.add('tooltip-visible');
-            setTimeout(function () {
-                icon.classList.remove('tooltip-visible');
-            }, 2500);
-        }
-
-        icon.addEventListener('click', reveal);
-        icon.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                reveal();
-            }
-        });
-    })();
-
-    /* ---------- intro glitch animation ---------- */
     (function () {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-        var stage = document.querySelector('.stage');
-        var content = stage.querySelector('main');
+        var container = document.querySelector('.container');
+        var content = container.querySelector('.content');
         var stripesSvg = document.getElementById('stripes');
 
         var NUM_CLONES = 6;
@@ -602,13 +176,13 @@
 
                 var hue = randHue();
                 clone.style.color = hue;
-                var anchors = clone.querySelectorAll('a, .work-item');
+                var anchors = clone.querySelectorAll('a');
                 for (var a = 0; a < anchors.length; a++) anchors[a].style.color = randHue();
 
                 var jitter = (Math.random() - 0.5) * 36;
                 clone.style.transform = 'translate3d(' + jitter + 'px, 0, 0)';
                 clone.style.opacity = '1';
-                stage.appendChild(clone);
+                container.appendChild(clone);
 
                 (function (el, jitter) {
                     var snapAt = 80 + Math.random() * 320;
@@ -646,10 +220,10 @@
                 rect.setAttribute('y', Math.round(Math.random() * H));
                 rect.setAttribute('width', w);
                 rect.setAttribute('height', h);
-                // mix of color hues + light "cutout" stripes for the glitch read
+                // mix of color hues + white "cutout" stripes for the glitch read on light bg
                 var roll = Math.random();
                 var fill;
-                if (roll < 0.45) fill = '#fafafa';
+                if (roll < 0.45) fill = '#fff';
                 else if (roll < 0.55) fill = '#111';
                 else fill = randHue();
                 rect.setAttribute('fill', fill);
@@ -667,7 +241,7 @@
             buildStripes();
             buildClones();
             setTimeout(function () {
-                stage.classList.remove('is-glitching');
+                container.classList.remove('is-glitching');
             }, 720);
         });
     })();

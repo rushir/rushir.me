@@ -681,16 +681,31 @@
             }, 1100);
         }
 
+        var revealed = false;
+
+        function reveal() {
+            if (revealed) return;
+            revealed = true;
+            stage.classList.remove('is-glitching');
+            if (stripesSvg.parentNode) stripesSvg.parentNode.removeChild(stripesSvg);
+        }
+
         // run intro on next frame so layout is settled
         function startIntro() {
             requestAnimationFrame(function () {
+                // the safety net below may have already revealed the page in a
+                // background tab; don't glitch over content that is already up
+                if (revealed) return;
                 buildStripes();
                 buildClones();
-                setTimeout(function () {
-                    stage.classList.remove('is-glitching');
-                }, 720);
+                setTimeout(reveal, 720);
             });
         }
+
+        // requestAnimationFrame never fires while the tab is backgrounded, so the
+        // effect alone can leave the page blank until it gets focus. Guarantee the
+        // reveal on a plain timer, which is throttled but still runs.
+        setTimeout(reveal, 1800);
 
         // wait for the webfont first, otherwise the clones get measured against
         // the fallback face and reflow out of alignment when Futura swaps in
